@@ -1,4 +1,32 @@
 const {app, BrowserWindow} = require('electron')
+const {ipcMain} = require('electron')
+
+var ipc = require('electron').ipcMain;
+// Reload on change
+require('electron-reload')(__dirname);
+var Twitter = require('twitter')
+
+var client = new Twitter({
+    consumer_key: 'xdCmkUsr9XIiK9HXzgFhU4T9O',
+    consumer_secret: '3WvQrZVHbuQKFV40cwsJs4oNeIpMWZCz8d69psvdmaXvehoElp',
+    access_token_key: '767181526484201474-kAKKfFljNsUEV4Kx0YGNqUVbZs79k46',
+    access_token_secret: 'iEWmLa7jBBY58e4JGOuVp4LVE0b2UquZIXiosiGjKuEyY'
+})
+
+var tweets = [];
+
+client.stream('statuses/filter', {track: 'olympics'},  function(stream) {
+    stream.on('data', function(tweet) {
+        tweets.push(tweet);
+        console.log(tweet)
+        win.webContents.send('updateStream', tweet)
+    });
+
+    stream.on('error', function(error) {
+        // console.log(error);
+    });
+});
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -6,13 +34,13 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600, frame: false})
+  win = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`)
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -21,6 +49,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+    win.webContents.send('Test')
 }
 
 // This method will be called when Electron has finished
