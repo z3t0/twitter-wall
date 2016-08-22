@@ -11,15 +11,15 @@ h1 {
 
 body {
     background-color: #F5F8FA;
-    text-align: center;
 }
 
 ul {
     list-style: none;
+    margin-left: -40px;
 }
 
 .tweet {
-    padding: 5px;
+    padding: 30px;
 }
 
 .user {
@@ -27,8 +27,8 @@ ul {
 }
 
 .user_image {
-    width: 50px;
-    height: 50px;
+    width: 200px;
+    height: 200px;
     padding: 10px;
 
 }
@@ -36,11 +36,16 @@ ul {
 .user_name {
     color: gray;
     padding-top: 5px;
+    font-size: 20px;
 
 }
 
 .special {
     color: lightblue;
+}
+
+.link {
+    color: blue;
 }
 
 .element {
@@ -50,13 +55,14 @@ ul {
 
 .text {
 	font-family: 'Fira Sans', sans-serif;
-    font-size: 20px;
+    font-size: 35px;
     overflow:auto;
     text-align:center;
 }
 
 .item {
     background-color: #ffffff;
-    margin: 10px 0;
+    display: none;
+    height: 100vh
+    /* margin-bottom: 10px; */
 }
-

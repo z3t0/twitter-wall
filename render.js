@@ -8,6 +8,7 @@ function getTweet(tweetData) {
 
     var tweet = document.createElement("div")
     var text = document.createElement("div")
+    var media = document.createElement("div")
 
     var user = document.createElement("div")
     var user_img = document.createElement("div")
@@ -24,6 +25,12 @@ function getTweet(tweetData) {
                 element.className = "special element"
             }
 
+            else if (str[j].includes("http")) {
+                var msg = document.createTextNode(str[j].concat(" "))
+                element.appendChild(msg)
+                element.className = "link element"
+            }
+
             else {
                 element.appendChild(document.createTextNode(str[j].concat(" ")))
                 element.className = "element"
@@ -34,6 +41,12 @@ function getTweet(tweetData) {
             if (str[j].charAt(0) === '#' || str[j].charAt(0) === '@') {
                 element.appendChild(document.createTextNode(str[j]))
                 element.className = "special element"
+            }
+
+            else if (str[j].includes("http")) {
+                var msg = document.createTextNode(str[j].concat(" "))
+                element.appendChild(msg)
+                element.className = "link element"
             }
 
             else {
@@ -49,7 +62,7 @@ function getTweet(tweetData) {
 
     var img = document.createElement("IMG")
     img.className = "user_image"
-    img.src = data.user.profile_image_url
+    img.src = data.user.profile_image_url.replace("normal", "400x400")
 
     user_img.appendChild(img)
 
@@ -60,7 +73,23 @@ function getTweet(tweetData) {
     user.appendChild(name)
     user.className = "user"
 
+    // Media
+    var mediaData = data.entities.media
+    console.log(mediaData)
+
+    if (mediaData) {
+
+        for (var k = 0; k < mediaData.length; k++) {
+            var mediaElement = document.createElement("IMG")
+            mediaElement.className = "media-image"
+            mediaElement.src = mediaData[k].media_url
+            media.appendChild(mediaElement)
+        }
+    }
+
+
     tweet.appendChild(text)
+    tweet.appendChild(media)
     tweet.className = "tweet"
 
     item.appendChild(user)
@@ -73,5 +102,35 @@ function getTweet(tweetData) {
 
 ipcRenderer.on('updateStream', function(event, data) {
     var node = document.getElementById('stream')
-    node.insertBefore(getTweet(data), node.firstChild)
+    node.appendChild(getTweet(data))
+    // node.insertBefore(getTweet(data), node.firstChild)
 })
+
+var counter = 0
+
+window.setInterval(function(){
+
+
+    // debugger;
+    var node = document.getElementById('stream').childNodes;
+    // Hide current tweet
+
+    if(node.length == 0)
+    {
+    }
+
+    else {
+
+        if (counter == node.length)
+            counter = 0;
+
+        if (counter != 0)
+            node[counter - 1].style.display = "none"
+
+        // Show next tweet
+        node[counter].style.display = "block"
+        counter++;
+
+        console.log("next")
+    }
+}, 5000);
