@@ -14,12 +14,21 @@ var client = new Twitter({
 })
 
 var tweets = [];
+var approvedUsers = ['Z3T0_rk']
 
-client.stream('statuses/filter', {track: 'sport'},  function(stream) {
+client.stream('statuses/filter', {track: 'brcispark'},  function(stream) {
     stream.on('data', function(tweet) {
-        tweets.push(tweet);
-        console.log(tweet)
-        win.webContents.send('updateStream', tweet)
+
+      for(var i = 0; i < approvedUsers.length; i++) {
+        if (tweet.user.screen_name == approvedUsers[i])
+        {
+          console.log(tweet.user.screen_name)
+          tweets.push(tweet)
+          // console.log(tweet)
+          win.webContents.send('updateStream', tweet) 
+        }
+      }
+
     });
 
     stream.on('error', function(error) {

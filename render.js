@@ -103,7 +103,6 @@ function getTweet(tweetData) {
 ipcRenderer.on('updateStream', function(event, data) {
     var node = document.getElementById('stream')
     node.appendChild(getTweet(data))
-    // node.insertBefore(getTweet(data), node.firstChild)
 })
 
 var counter = 0

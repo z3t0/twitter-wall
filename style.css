@@ -18,6 +18,13 @@ ul {
     margin-left: -40px;
 }
 
+.media-image {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 500px;
+}
+
 .tweet {
     padding: 30px;
 }
