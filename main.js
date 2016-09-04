@@ -16,7 +16,7 @@ var client = new Twitter({
 var tweets = [];
 var approvedUsers = ['Z3T0_rk']
 
-client.stream('statuses/filter', {track: 'picture'},  function(stream) {
+client.stream('statuses/filter', {track: 'babe'},  function(stream) {
     stream.on('data', function(tweet) {
 
       // for(var i = 0; i < approvedUsers.length; i++) {

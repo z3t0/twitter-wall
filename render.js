@@ -28,7 +28,8 @@ function processTweet(tweetData) {
     var has_media = false
     if (data.entities.media) {
         for (var i = 0; i < data.entities.media.length; i++) {
-            media.push(data.entities.media[0].media_url)
+            // debugger;
+            media.push(data.entities.media[i].media_url)
         }
         has_media = true
     }
@@ -97,33 +98,57 @@ function setCurrentTweet(tweetData) {
         node.removeChild(node.firstChild)
     }
 
-    var item = document.createElement('li')
+    // Name
+    //      Full name
+    //      Screen name
+    // Profile Image
+    // Time
+
+    // Tweet Text
+    // Media
+
+    var item = document.createElement('div')
     item.className = 'currentItem'
 
-    var user = document.createElement('div')
-    var user_fullname = document.createElement('div')
+    // User
+    var user_name = document.createElement('div')
+    var user_name_full = document.createElement('div')
+    var user_name_screen = document.createElement('div')
     var user_image = document.createElement("IMG")
 
-    user.className = 'current_user'
-    user_fullname.className = 'current_user_fullname'
-    user_image.className = 'current_user_image'
-    user.appendChild(user_image)
-    user.appendChild(user_fullname)
+    user_name.className = 'current_user_name' 
+    user_name_full.className = 'current_user_name_full'
+    user_name_screen.className = 'current_user_name_screen'
     
+    user_image.className = 'current_user_image'
 
+    user_name.appendChild(user_name_full)
+    user_name.appendChild(user_name_screen)
+
+    user_name_full.appendChild(document.createTextNode(tweetData.user_fullname))
+    user_name_screen.appendChild(document.createTextNode(tweetData.user_name))
+    user_image.src = tweetData.user_image_src
+    
+    // Tweet
     var tweet = document.createElement('div')
-    var tweet_text = document.createElement('div')
 
     tweet.className = 'current_tweet'
-    tweet_text.className = 'current_tweet_text'
-    tweet.appendChild(tweet_text)
+    tweet.appendChild(document.createTextNode(tweetData.tweet_text))
 
-    user_fullname.appendChild(document.createTextNode(tweetData.user_fullname))
-    user_image.src = tweetData.user_image_src
+    if (tweetData.has_media)
+    {
+        for (var i = 0; i < tweetData.media.length; i++) {
+            var media = document.createElement('IMG')
+            media.className = 'current_media'
+            media.src = tweetData.media[i]
 
-    tweet_text.appendChild(document.createTextNode(tweetData.tweet_text))
+            item.appendChild(media)
+        }
+    }
 
-    item.appendChild(user)
+
+    item.appendChild(user_name)
+    item.appendChild(user_image)
     item.appendChild(tweet)
 
     node.appendChild(item)

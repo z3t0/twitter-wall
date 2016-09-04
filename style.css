@@ -8,6 +8,10 @@
     background-color: blue;
 }
 
+.body {
+    background-color: gray;
+}
+
 .main {
 }
 
@@ -37,34 +41,70 @@
 
 /* Current */
 .currentItem {
-    display: block;
-    padding: 10px;
-}
-
-.current_user {
-    text-align: center;
-}
-
-.current_user_image {
+    display: flex;
+    flex-wrap: wrap;
     padding: 5px;
+}
+
+.current_user_name {
+    order : 0;
+
+    margin: 5px;
+
     width: 300px;
     height: 300px;
+    max-height: 300px;
+    max-width: 300px;
+
+    background-color: gray;
+    text-align: center;
 }
 
-.current_user_fullname {
-    text-align: center;
-    padding: 5px;
+.current_user_name_full {
+    padding: 15px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 80px;
+    font-size: 50px;
     color: white;
 }
 
-.current_tweet_text {
+.current_user_name_screen {
+    padding: 15px;
     font-family: 'Fira Sans', sans-serif;
+    font-size: 30px;
+    text-overflow: all;
+    color: blue;
+}
+
+.current_user_image {
+    order: 1;
+    width: 300px;
+    height: 300px;
+    margin: 5px;
+
+}
+
+.current_tweet {
+    order: 5;
+    width: 300px;
+    height: auto;
+    margin: 5px;
+    background-color: gray;
+
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 30px;
+    color: white;
+    word-break: all;
+
+    justify-content: space-between;
     text-align: center;
-    text-overflow: auto;
-    word-break: normal;
-    font-size: 40px;
+}
+
+.current_media {
+    order : 4;
+
+    width: 300px;
+    height: 300px;
+    margin: 5px;
 }
 
 /* Stream */
