@@ -1,9 +1,3 @@
-const {app, BrowserWindow} = require('electron')
-const {ipcMain} = require('electron')
-
-var ipc = require('electron').ipcMain;
-// Reload on change
-require('electron-reload')(__dirname);
 var Twitter = require('twitter')
 
 var client = new Twitter({
@@ -23,9 +17,13 @@ client.stream('statuses/filter', {track: 'music'},  function(stream) {
         // if (tweet.user.screen_name == approvedUsers[i])
         // {
           // console.log(tweet.user.screen_name)
+
+          // got tweet, add it to the system
+          var tweet = processtweet(data)
           tweets.push(tweet)
+          updatestream(tweet)
+
           // console.log(tweet)
-          win.webContents.send('updateStream', tweet) 
         // }
       // }
 
@@ -36,53 +34,159 @@ client.stream('statuses/filter', {track: 'music'},  function(stream) {
     });
 });
 
+function processTweet(tweetData) {
+    var data = tweetData
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win
+    // Parse Date time information
+    var date = new Date(
+    data.created_at.replace(/^\w+ (\w+) (\d+) ([\d:]+) \+0000 (\d+)$/,
+        "$1 $2 $4 $3 UTC"));
 
-function createWindow () {
-  // Create the browser window.
-  win = new BrowserWindow({width: 1440, height: 900})
+    // Create the list item:
+    var item = document.createElement('li');
 
-  // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/index.html`)
+    var tweet = {}
 
-  // Open the DevTools.
-  win.webContents.openDevTools()
+    // User
+    var user_name = data.user.screen_name
+    var user_fullname = data.user.name
+    var user_image_src = data.user.profile_image_url.replace("normal", "400x400")
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
+    // Tweet Text
+    var tweet_text = data.text
 
-    win.webContents.send('Test')
+    // Media
+    var media = []
+    var has_media = false
+    if (data.entities.media) {
+        for (var i = 0; i < data.entities.media.length; i++) {
+            // debugger;
+            media.push(data.entities.media[i].media_url)
+        }
+        has_media = true
+    }
+
+    tweet.user_name = user_name
+    tweet.user_fullname = user_fullname
+    tweet.user_image_src = user_image_src
+    tweet.tweet_text = tweet_text
+    tweet.date = date
+    tweet.has_media = has_media
+    tweet.media = media
+
+    return tweet
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+function updateStream(tweetData) {
+    var node = document.getElementById('stream')
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+    // Create Stream Object
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
-})
+    var item = document.createElement('li')
+    item.className = 'streamItem'
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+    var user = document.createElement('div')
+    var user_fullname = document.createElement('div')
+    var user_image = document.createElement("IMG")
+
+    user.className = 'user'
+    user_fullname.className = 'user_fullname'
+    user_image.className = 'user_image'
+    user.appendChild(user_image)
+    user.appendChild(user_fullname)
+    
+
+    var tweet = document.createElement('div')
+    var tweet_text = document.createElement('div')
+
+    tweet.className = 'tweet'
+    tweet_text.className = 'tweet_text'
+    tweet.appendChild(tweet_text)
+
+    user_fullname.appendChild(document.createTextNode(tweetData.user_fullname))
+    user_image.src = tweetData.user_image_src
+
+    tweet_text.appendChild(document.createTextNode(tweetData.tweet_text))
+
+    item.appendChild(user)
+    item.appendChild(tweet)
+
+    node.appendChild(item)
+}
+
+function setCurrentTweet(tweetData) {
+    var node = document.getElementById('current')
+
+    // Remove children
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+
+    // Name
+    //      Full name
+    //      Screen name
+    // Profile Image
+    // Time
+
+    // Tweet Text
+    // Media
+
+    var item = document.createElement('div')
+    item.className = 'currentItem'
+
+    // User
+    var user_name = document.createElement('div')
+    var user_name_full = document.createElement('div')
+    var user_name_screen = document.createElement('div')
+    var user_image = document.createElement("IMG")
+
+    user_name.className = 'current_user_name' 
+    user_name_full.className = 'current_user_name_full'
+    user_name_screen.className = 'current_user_name_screen'
+    
+    user_image.className = 'current_user_image'
+
+    user_name.appendChild(user_name_full)
+    user_name.appendChild(user_name_screen)
+
+    user_name_full.appendChild(document.createTextNode(tweetData.user_fullname))
+    user_name_screen.appendChild(document.createTextNode(tweetData.user_name))
+    user_image.src = tweetData.user_image_src
+    
+    // Tweet
+    var tweet = document.createElement('div')
+
+    tweet.className = 'current_tweet'
+    tweet.appendChild(document.createTextNode(tweetData.tweet_text))
+
+    if (tweetData.has_media)
+    {
+        for (var i = 0; i < tweetData.media.length; i++) {
+            var media = document.createElement('IMG')
+            media.className = 'current_media'
+            media.src = tweetData.media[i]
+
+            item.appendChild(media)
+        }
+    }
+
+
+    item.appendChild(user_name)
+    item.appendChild(user_image)
+    item.appendChild(tweet)
+
+    node.appendChild(item)
+}
+
+var count = 0
+
+window.setInterval(function(){
+    setCurrentTweet(tweets[count])
+
+    if (count >= (tweets.length - 1))
+        count = 0
+    else
+        count++
+
+}, 5000);
+
