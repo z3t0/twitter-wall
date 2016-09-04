@@ -1,75 +1,98 @@
 .panel {
-    text-align: center;
-    padding: 10px;
-    background-color: #2B7BB9;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left:0;
+    right: 0;
+    height: 5%;
+    background-color: blue;
 }
 
-h1 {
-	font-family: 'Fira Sans', sans-serif;
-    color: #ffffff;
+.main {
 }
 
-body {
-    background-color: #F5F8FA;
+.sub {
+    margin-left: 300px;
 }
 
-ul {
+#current {
+    float: right;
+    width: 100%;
+}
+
+#stream {
+    float: left;
+    width: 300px;
     list-style: none;
-    margin-left: -40px;
+    height: 90%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    margin-left: -340px;
+
+    overflow: hidden;
+
+    background-color: gray;
 }
 
-.media-image {
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-    height: 500px;
+/* Current */
+.currentItem {
+    display: block;
+    padding: 10px;
 }
 
-.tweet {
-    padding: 30px;
+.current_user {
+    text-align: center;
 }
 
+.current_user_image {
+    padding: 5px;
+    width: 300px;
+    height: 300px;
+}
+
+.current_user_fullname {
+    text-align: center;
+    padding: 5px;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 80px;
+    color: white;
+}
+
+.current_tweet_text {
+    font-family: 'Fira Sans', sans-serif;
+    text-align: center;
+    text-overflow: auto;
+    word-break: normal;
+    font-size: 40px;
+}
+
+/* Stream */
+.streamItem {
+    display: block;
+    padding: 5px;
+    background-color: white;
+}
 .user {
     text-align: center;
 }
 
 .user_image {
-    width: 200px;
-    height: 200px;
-    padding: 10px;
-
+    padding: 5px;
+    width: 250px;
+    height: 250px;
 }
 
-.user_name {
-    color: gray;
-    padding-top: 5px;
-    font-size: 20px;
-
+.user_fullname {
+    text-align: center;
+    padding: 5px;
+    font-family: 'Fira Sans', sans-serif;
+    color: white;
 }
 
-.special {
-    color: lightblue;
-}
-
-.link {
-    color: blue;
-}
-
-.element {
-    display: inline-block;
-    white-space: pre;
-}
-
-.text {
-	font-family: 'Fira Sans', sans-serif;
-    font-size: 35px;
-    overflow:auto;
-    text-align:center;
-}
-
-.item {
-    background-color: #ffffff;
-    display: none;
-    height: 100vh
-    /* margin-bottom: 10px; */
+.tweet_text {
+    font-family: 'Fira Sans', sans-serif;
+    text-align: center;
+    text-overflow: auto;
+    word-break: normal;
 }
