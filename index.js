@@ -49,26 +49,6 @@ function updateStream(tweetData) {
     node.appendChild(item)
 }
 
-function parseText(text) {
-    var node = document.createElement('div')
-
-    var data = text.split(" ")
-
-    for (var i = 0; i < data.length; i++) {
-        // Each word
-        // Mention
-
-        // Is word profanity?
-
-
-        var element = document.createTextNode(data[0])
-
-        if (data[i].charAt(0) == "@") {
-        }
-    }
-
-}
-
 function setCurrentTweet(tweetData) {
     var node = document.getElementById('current')
 
