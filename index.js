@@ -1,82 +1,17 @@
-var Twitter = require('twitter')
 
-var client = new Twitter({
-    consumer_key: 'xdCmkUsr9XIiK9HXzgFhU4T9O',
-    consumer_secret: '3WvQrZVHbuQKFV40cwsJs4oNeIpMWZCz8d69psvdmaXvehoElp',
-    access_token_key: '767181526484201474-kAKKfFljNsUEV4Kx0YGNqUVbZs79k46',
-    access_token_secret: 'iEWmLa7jBBY58e4JGOuVp4LVE0b2UquZIXiosiGjKuEyY'
-})
 
 var tweets = [];
-var approvedUsers = ['Z3T0_rk']
-
-client.stream('statuses/filter', {track: 'music'},  function(stream) {
-    stream.on('data', function(tweet) {
-
-      // for(var i = 0; i < approvedUsers.length; i++) {
-        // if (tweet.user.screen_name == approvedUsers[i])
-        // {
-          // console.log(tweet.user.screen_name)
-
-          // got tweet, add it to the system
-          var tweet = processtweet(data)
-          tweets.push(tweet)
-          updatestream(tweet)
-
-          // console.log(tweet)
-        // }
-      // }
-
-    });
-
-    stream.on('error', function(error) {
-        // console.log(error);
-    });
+var socket = require('socket.io-client')('http://localhost:3000');
+socket.on('connect', function(){});
+socket.on('event', function(data){
 });
-
-function processTweet(tweetData) {
-    var data = tweetData
-
-    // Parse Date time information
-    var date = new Date(
-    data.created_at.replace(/^\w+ (\w+) (\d+) ([\d:]+) \+0000 (\d+)$/,
-        "$1 $2 $4 $3 UTC"));
-
-    // Create the list item:
-    var item = document.createElement('li');
-
-    var tweet = {}
-
-    // User
-    var user_name = data.user.screen_name
-    var user_fullname = data.user.name
-    var user_image_src = data.user.profile_image_url.replace("normal", "400x400")
-
-    // Tweet Text
-    var tweet_text = data.text
-
-    // Media
-    var media = []
-    var has_media = false
-    if (data.entities.media) {
-        for (var i = 0; i < data.entities.media.length; i++) {
-            // debugger;
-            media.push(data.entities.media[i].media_url)
-        }
-        has_media = true
-    }
-
-    tweet.user_name = user_name
-    tweet.user_fullname = user_fullname
-    tweet.user_image_src = user_image_src
-    tweet.tweet_text = tweet_text
-    tweet.date = date
-    tweet.has_media = has_media
-    tweet.media = media
-
-    return tweet
-}
-
+socket.on('disconnect', function(){
+});
+socket.on('tweet', function(data) {
+    // Got a tweet from server
+    // add to the list
+    updateStream(data)
+})
 function updateStream(tweetData) {
     var node = document.getElementById('stream')
 
@@ -110,6 +45,8 @@ function updateStream(tweetData) {
 
     item.appendChild(user)
     item.appendChild(tweet)
+
+    tweets.push(tweetData)
 
     node.appendChild(item)
 }
@@ -181,6 +118,8 @@ function setCurrentTweet(tweetData) {
 var count = 0
 
 window.setInterval(function(){
+    if (tweets.length == 0)
+        return
     setCurrentTweet(tweets[count])
 
     if (count >= (tweets.length - 1))
