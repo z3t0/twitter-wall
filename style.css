@@ -10,12 +10,12 @@ html, body {
     width: 100%;
     left:0;
     right: 0;
-    height: 5%;
+    height: 10%;
     background-color: #FC6565;
 
     text-align: center;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 20px;
+    font-size: 45px;
     color: white;
 }
 
@@ -37,17 +37,47 @@ html, body {
 
 #stream {
     float: left;
-    width: 400px;
+    width: 450px;
     list-style: none;
-    height: 90%;
+    height: 87%;
     position: fixed;
     display: flex;
     flex-direction: column;
-    margin-left: -440px;
+    margin-left: -490px;
     background-color: #EB7260;
 
     overflow: hidden;
 
+}
+
+.mention:after{
+    content: "\00a0 ";
+}
+
+.mention {
+    color:red;
+    float: left;
+}
+
+.tag:after{
+    content: "\00a0 ";
+}
+
+.tag {
+    float: left;
+    color:yellow;
+}
+
+.word:after {
+    content: "\00a0 ";
+}
+
+.word {
+    float: left;
+}
+
+.last {
+    float:left;
 }
 
 /* Current */
@@ -62,10 +92,10 @@ html, body {
 
     margin: 5px;
 
-    width: 450px;
-    height: 450px;
-    max-height: 450px;
-    max-width: 450px;
+    width: 400px;
+    height: 400px;
+    max-height: 400px;
+    max-width: 400px;
 
     background-color: #29ABA4;
     text-align: center;
@@ -74,7 +104,7 @@ html, body {
 .current_user_name_full {
     padding: 15px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 40px;
+    font-size: 70px;
     color: white;
     word-wrap: break-word;
 }
@@ -86,7 +116,8 @@ html, body {
 .current_user_name_screen {
     padding: 15px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 30px;
+    font-size: 50px;
+    word-wrap: break-word;
     text-overflow: all;
     color: blue;
 }
@@ -107,10 +138,9 @@ html, body {
     background-color: #29ABA4;
 
     font-family: 'Fira Sans', sans-serif;
-    font-size: 20px;
-    color: white;
-    word-break: all;
-
+    font-size: 30px;
+    color: #DDD5CB;
+    word-break: all;     
     justify-content: space-between;
     text-align: center;
 }
@@ -148,6 +178,7 @@ html, body {
 }
 
 .tweet_text {
+    display: inline-block;
     font-family: 'Fira Sans', sans-serif;
     text-align: center;
     text-overflow: auto;
@@ -156,7 +187,7 @@ html, body {
 
 /* Scrolling text */
 .scroll-left {
- height: 50px;  
+ height: 100px;  
  overflow: hidden;
  position: relative;
 }
@@ -164,8 +195,8 @@ html, body {
  position: absolute;
  width: 100%;
  height: 100%;
+ line-height: 100px;
  margin: 0;
- line-height: 40px;
  text-align: center;
  /* Starting position */
  -moz-transform:translateX(100%);

@@ -1,5 +1,7 @@
 var tweets = [];
-var socket = require('socket.io-client')('http://localhost:3000');
+//as
+var address = "http://192.168.0.215:3000"
+var socket = require('socket.io-client')(address);
 socket.on('connect', function(){});
 socket.on('event', function(data){
 });
@@ -30,7 +32,7 @@ function updateStream(tweetData) {
     
 
     var tweet = document.createElement('div')
-    var tweet_text = document.createElement('div')
+    var tweet_text = parseText(tweetData.tweet_text)
 
     tweet.className = 'tweet'
     tweet_text.className = 'tweet_text'
@@ -38,8 +40,6 @@ function updateStream(tweetData) {
 
     user_fullname.appendChild(document.createTextNode(tweetData.user_fullname))
     user_image.src = tweetData.user_image_src
-
-    tweet_text.appendChild(document.createTextNode(tweetData.tweet_text))
 
     item.appendChild(user)
     item.appendChild(tweet)
@@ -111,6 +111,46 @@ function setCurrentTweet(tweetData) {
     item.appendChild(tweet)
 
     node.appendChild(item)
+}
+
+function parseText(text) {
+    var node = document.createElement('div')
+
+    var data = text.split(' ')
+    var string = ""
+
+    for (var i = 0; i < data.length; i++) {
+        var word = data[i]
+
+        if (i < (data.length - 1)) {
+        }
+
+        var element = document.createElement('div')
+        element.appendChild(document.createTextNode(word))
+
+        // Mention
+        if (word.includes("@")) {
+            element.className = "mention"
+        }
+
+        // tag
+        else if (word.includes("#")) {
+            element.className = "tag"
+        }
+
+        else if (i == (data.length - 1)) {
+            element.className = "last"
+        }
+
+        else {
+            element.className = "word"
+        }
+
+        node.appendChild(element)
+    }
+
+    console.log(node)
+    return node
 }
 
 var count = 0
