@@ -27,7 +27,7 @@ html, body {
 }
 
 .sub {
-    margin-left: 300px;
+    margin-left: 450px;
 }
 
 #current {
@@ -37,13 +37,13 @@ html, body {
 
 #stream {
     float: left;
-    width: 300px;
+    width: 400px;
     list-style: none;
     height: 90%;
     position: fixed;
     display: flex;
     flex-direction: column;
-    margin-left: -340px;
+    margin-left: -440px;
     background-color: #EB7260;
 
     overflow: hidden;
@@ -62,10 +62,10 @@ html, body {
 
     margin: 5px;
 
-    width: 300px;
-    height: 300px;
-    max-height: 300px;
-    max-width: 300px;
+    width: 450px;
+    height: 450px;
+    max-height: 450px;
+    max-width: 450px;
 
     background-color: #29ABA4;
     text-align: center;
@@ -93,15 +93,15 @@ html, body {
 
 .current_user_image {
     order: 1;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     margin: 5px;
 
 }
 
 .current_tweet {
     order: 5;
-    width: 300px;
+    width: 400px;
     height: auto;
     margin: 5px;
     background-color: #29ABA4;
@@ -118,8 +118,8 @@ html, body {
 .current_media {
     order : 4;
 
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     margin: 5px;
 }
 
