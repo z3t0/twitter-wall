@@ -11,7 +11,7 @@ html, body {
     left:0;
     right: 0;
     height: 10%;
-    background-color: #3A9AD9;
+    background-color: red;
 
     text-align: center;
     font-family: 'Fira Sans', sans-serif;
@@ -44,9 +44,9 @@ html, body {
     display: flex;
     flex-direction: column;
     margin-left: -490px;
-    background-color: #EB7260;
+    background-color: #3A9AD9;
 
-    overflow: hidden;
+    overflow-y: auto;
 
 }
 
@@ -157,7 +157,7 @@ html, body {
 .streamItem {
     display: block;
     padding: 5px;
-    background-color: #3A9AD9;
+    background-color: white;
     margin: 10px;
 }
 .user {
