@@ -1,7 +1,7 @@
 html, body {
     margin:0;
     padding:0;
-    background-color: #354458;
+    background-color: #F5F8FA;
 }
 
 .panel {
@@ -11,7 +11,7 @@ html, body {
     left:0;
     right: 0;
     height: 10%;
-    background-color: #FC6565;
+    background-color: #3A9AD9;
 
     text-align: center;
     font-family: 'Fira Sans', sans-serif;
@@ -97,7 +97,7 @@ html, body {
     max-height: 400px;
     max-width: 400px;
 
-    background-color: #29ABA4;
+    background-color: lightblue;
     text-align: center;
 }
 
@@ -135,11 +135,11 @@ html, body {
     width: 400px;
     height: auto;
     margin: 5px;
-    background-color: #29ABA4;
+    background-color: #E5F2F7;
 
     font-family: 'Fira Sans', sans-serif;
     font-size: 30px;
-    color: #DDD5CB;
+    color: black;
     word-break: all;     
     justify-content: space-between;
     text-align: center;
