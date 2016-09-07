@@ -26,7 +26,27 @@ html, body {
 
 }
 
+.sub {
+    margin-left: 300px;
+}
+
+#stream::-webkit-scrollbar {
+    display: none;
+}
+
+#stream {
+    margin-top: 10px;
+    float: left;
+    width: 300px;
+    height: 87%;
+    position: fixed;
+    overflow-y: scroll;
+    margin-left: -300px;
+    background-color: #E5F2F7;
+}
+
 #current {
+    float: right;
     width: 100%;
 }
 
@@ -54,7 +74,7 @@ html, body {
 .current_user_name_full {
     padding: 15px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 70px;
+    font-size: 60px;
     color: gray;
     word-wrap: break-word;
 }
@@ -114,10 +134,12 @@ html, body {
 
 .current_tweet {
     order: 5;
-    width: 400px;
+    width: 600px;
     height: auto;
     margin: 5px;
     background-color: white;
+
+    padding: 15px;
 
     font-family: 'Fira Sans', sans-serif;
     font-size: 30px;
@@ -133,6 +155,57 @@ html, body {
     width: 400px;
     height: 400px;
     margin: 5px;
+}
+
+.current_feature {
+    order: 6;
+    min-width: 300px;
+    height: auto;
+    margin: 5px;
+    padding: 10px;
+    background-color: white;
+}
+
+.current_feature_heading {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 35px;
+    color: gray;
+    word-break: all;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.current_feature_element {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 30px;
+    color: black;
+    word-break: all;
+    justify-content: space-between;
+    text-align: center;
+}
+
+/* Stream */
+.stream_item {
+    margin: 10px;
+    text-align: center;
+
+    width: 280px;
+    height: auto;
+    padding: 10px;
+    padding-top: 30px;
+
+    background-color: #0084B4;
+}
+
+.stream_user_screen_name {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 25px;
+    word-wrap: break-word;
+}
+
+.stream_user_image {
+    width: 200px;
+    height: 200px;
 }
 
 /* Scrolling text */

@@ -10,8 +10,14 @@ socket.on('disconnect', function(){
 socket.on('tweet', function(data) {
     // Got a tweet from server
     // add to the list
+    data.streamIndex = UpdateStream(data)
     tweets.push(data)
 })
+
+var feature_schedule = ["Schedule", "Period 1 : 8:50 - 9:55", "Period 2 : 10:00 - 11:55", "Period 3 : 11:15 - 12:20", "NOON : 12:20 - 1:10", "Period 4 : 1:10 - 2:15", "Period 5 : 2:20 - 3: 25"]
+var feature_values = ["Values", "Belong", "Respect", "Care", "Inspire"]
+
+var feature = feature_schedule
 
 function setCurrentTweet(tweetData) {
     var node = document.getElementById('current')
@@ -56,7 +62,7 @@ function setCurrentTweet(tweetData) {
     var tweet = document.createElement('div')
 
     tweet.className = 'current_tweet'
-    tweet.appendChild(document.createTextNode(tweetData.tweet_text))
+    tweet.appendChild(parseText(tweetData.tweet_text))
 
     // Time
     var time = document.createElement('div')
@@ -91,11 +97,34 @@ function setCurrentTweet(tweetData) {
         }
     }
 
+    // Feature
+    var featureNode = document.createElement('div')
+    featureNode.className = "current_feature"
+
+    var currentFeature = feature
+
+    for (var j = 0; j < currentFeature.length; j++) {
+        var element = document.createElement('div')
+
+        if(j == 0 && (currentFeature.length > 1)) {
+            element.className = "current_feature_heading"
+        }
+
+        else {
+            element.className = "current_feature_element"
+        }
+
+        element.appendChild(document.createTextNode(currentFeature[j]))
+
+        featureNode.appendChild(element)
+    }
+
 
     item.appendChild(user_name)
     item.appendChild(user_image)
     item.appendChild(time)
     item.appendChild(tweet)
+    item.appendChild(featureNode)
 
     node.appendChild(item)
 }
@@ -118,12 +147,12 @@ function parseText(text) {
 
         // Mention
         if (word.includes("@")) {
-            string = string + '<span style="color:yellow">' + word +'</span>' + " "
+            string = string + '<span style="color:lightblue">' + word +'</span>' + " "
         }
 
         // tag
         else if (word.includes("#")) {
-            string = string + '<span style="color:blue">' + word +'</span>' + " "
+            string = string + '<span style="color:lightblue">' + word +'</span>' + " "
         }
 
         else if (i == (data.length - 1)) {
@@ -132,7 +161,6 @@ function parseText(text) {
 
         else if (word.includes("http")) {
             // we dont want any links
-            return
         }
 
         else {
@@ -143,24 +171,75 @@ function parseText(text) {
 
     var e = document.createElement('div')
     e.innerHTML = string
-    console.log(string)
 
     node.appendChild(e)
 
-    console.log(node)
     return node
 }
 
+function UpdateStream(tweetData) {
+    var node = document.getElementById("stream")
+
+    var item = document.createElement("div")
+    item.className = "stream_item"
+
+    var name = document.createElement("div")
+    name.className = "stream_user_screen_name"
+    name.appendChild(document.createTextNode("@" + tweetData.user_name))
+
+    var image = document.createElement("img")
+    image.className = "stream_user_image"
+    image.src = tweetData.user_image_src
+
+    item.appendChild(image)
+    item.appendChild(name)
+
+    node.appendChild(item)
+    return node.childNodes.length - 1
+}
+
 var count = 0
+var check = 1
+
+window.setInterval(function() {
+    // Set next feature
+    if(check == 1) {
+        feature = feature_values
+        check = 2
+    }
+    else if (check == 2) {
+        feature = feature_schedule
+        check = 1
+    }
+
+
+}, 10000)
 
 window.setInterval(function(){
     if (tweets.length == 0)
         return
+
     setCurrentTweet(tweets[count])
 
-    if (count >= (tweets.length - 1))
+    // Remove old color
+    if (count != 0) {
+        $("#stream").children().eq(tweets[count].streamIndex - 1).css('background', '#0084B4')
+        debugger;
+        $("#stream").last().css('background', '#0084B4')
+    }
+
+    // Scroll
+    var top = $("#stream").children().eq(tweets[count].streamIndex).position().top
+    var node = $("#stream").animate({scrollTop: $("#stream").scrollTop() + top})
+
+    // Set new color
+    $("#stream").children().eq(tweets[count].streamIndex).css('background', '#FF0000')
+
+    if (count >= (tweets.length - 1)) {
         count = 0
-    else
+    }
+    else {
         count++
+    }
 
 }, 5000);
