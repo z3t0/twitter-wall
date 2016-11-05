@@ -224,8 +224,10 @@ window.setInterval(function(){
     // Remove old color
     if (count != 0) {
         $("#stream").children().eq(tweets[count].streamIndex - 1).css('background', '#0084B4')
-        debugger;
-        $("#stream").last().css('background', '#0084B4')
+
+        if(count == (tweets.length - 1)){
+            $("#stream").children().eq(tweets[count].streamIndex).css('background', '#0084B4')
+        }
     }
 
     // Scroll
