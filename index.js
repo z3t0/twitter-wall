@@ -7,11 +7,18 @@ socket.on('event', function(data){
 });
 socket.on('disconnect', function(){
 });
+
+// Received a new tweet
 socket.on('tweet', function(data) {
   // Got a tweet from server
   // add to the list
   data.streamIndex = UpdateStream(data)
   tweets.push(data)
+})
+
+// Commands
+socket.on('status', function(data) {
+  $("#status")[0].innerHTML = "<p>" + data + "</p>"
 })
 
 var feature_schedule = ["Schedule", "Period 1 : 8:50 - 9:55", "Period 2 : 10:00 - 11:55", "Period 3 : 11:15 - 12:20", "NOON : 12:20 - 1:10", "Period 4 : 1:10 - 2:15", "Period 5 : 2:20 - 3: 25"]
