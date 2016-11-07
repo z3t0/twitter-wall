@@ -148,9 +148,11 @@ html, body {
 
 .current_media {
     order : 4;
-
-    width: 400px;
-    height: 400px;
+    display: block;
+    max-width: 600px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
     margin: 5px;
 }
 
