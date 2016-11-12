@@ -92,10 +92,15 @@ function setCurrentTweet(tweetData) {
     localTime.appendChild(document.createTextNode(date.toLocaleTimeString()))
     dateTime.appendChild(document.createTextNode(date.toLocaleDateString()))
 
+    var featureNode = document.createElement('div')
+
     // Media
     if (tweetData.has_media)
     {
       for (var i = 0; i < tweetData.media.length; i++) {
+        // TODO: remove media links
+        // TODO: add videos
+        // TODO: qr code generator from other links
         var media = document.createElement('IMG')
         media.className = 'current_media'
         media.src = tweetData.media[i]
@@ -104,34 +109,55 @@ function setCurrentTweet(tweetData) {
       }
     }
 
-    // Feature
-    var featureNode = document.createElement('div')
-    featureNode.className = "current_feature"
+    // Feature, only if there is no media
+    else {
+      featureNode.className = "current_feature"
+      // FIXME: need other features? advertising maybe
+      var currentFeature = feature
 
-    var currentFeature = feature
+      for (var j = 0; j < currentFeature.length; j++) {
+        var element = document.createElement('div')
 
-    for (var j = 0; j < currentFeature.length; j++) {
-      var element = document.createElement('div')
+        if(j === 0 && (currentFeature.length > 1)) {
+          element.className = "current_feature_heading"
+        }
 
-      if(j == 0 && (currentFeature.length > 1)) {
-        element.className = "current_feature_heading"
+        else {
+          element.className = "current_feature_element"
+        }
+
+        element.appendChild(document.createTextNode(currentFeature[j]))
+
+        featureNode.appendChild(element)
       }
-
-      else {
-        element.className = "current_feature_element"
-      }
-
-      element.appendChild(document.createTextNode(currentFeature[j]))
-
-      featureNode.appendChild(element)
     }
+
+
+    // Help
+    var helpNode = document.createElement('div')
+    helpNode.className = "current_help"
+
+    // Add logo
+    var helpImage = document.createElement('IMG')
+    helpImage.className = "current_help_image"
+    helpImage.src = "https://g.twimg.com/ios_homescreen_icon.png"
+
+    // Add text
+    var helpText = document.createElement('div')
+    helpText.appendChild(document.createTextNode("To share something tweet with #brcispark and give it a while to pass through our filters. You can try sharing images, videos, and even links!"))
+    helpText.className = "current_help_text"
+
+    helpNode.appendChild(helpImage)
+    helpNode.appendChild(helpText)
 
 
     item.appendChild(user_name)
     item.appendChild(user_image)
     item.appendChild(time)
     item.appendChild(tweet)
-    item.appendChild(featureNode)
+    if(!tweetData.has_media)
+      item.appendChild(featureNode)
+    item.appendChild(helpNode)
 
     node.appendChild(item)
   }
@@ -224,7 +250,7 @@ function setCurrentTweet(tweetData) {
 
   window.setInterval(function(){
     // No tweets
-    if (tweets.length == 0)
+    if (tweets.length === 0)
       return
 
     setCurrentTweet(tweets[count])
