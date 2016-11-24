@@ -86,8 +86,7 @@ function setCurrentTweet(tweetData) {
     time.appendChild(dateTime)
     time.appendChild(localTime)
 
-    dateTime.className = "current_date_time"
-    localTime.className = "current_local_time"
+    user_name.appendChild(time)
 
     localTime.appendChild(document.createTextNode(date.toLocaleTimeString()))
     dateTime.appendChild(document.createTextNode(date.toLocaleDateString()))
@@ -101,11 +100,16 @@ function setCurrentTweet(tweetData) {
         // TODO: remove media links
         // TODO: add videos
         // TODO: qr code generator from other links
-        var media = document.createElement('IMG')
-        media.className = 'current_media'
-        media.src = tweetData.media[i]
 
-        item.appendChild(media)
+        if(tweetData.media[i].type == "photo")
+        {
+          var media = document.createElement('IMG')
+          media.className = 'current_media'
+          media.src = tweetData.media[i].media_url
+          item.appendChild(media)
+        }
+
+
       }
     }
 
@@ -144,7 +148,9 @@ function setCurrentTweet(tweetData) {
 
     // Add text
     var helpText = document.createElement('div')
-    helpText.appendChild(document.createTextNode("To share something tweet with #brcispark and give it a while to pass through our filters. You can try sharing images, videos, and even links!"))
+
+    var helpTextString = "To share something tweet with " + '<span style="color:lightblue">' + "#brcispark" + "</span>" + " and give it a while to pass through our filters. You can try sharing images, videos, and even links!"
+    helpText.innerHTML = "<p>" + helpTextString + "<p>"
     helpText.className = "current_help_text"
 
     helpNode.appendChild(helpImage)
@@ -153,7 +159,6 @@ function setCurrentTweet(tweetData) {
 
     item.appendChild(user_name)
     item.appendChild(user_image)
-    item.appendChild(time)
     item.appendChild(tweet)
     if(!tweetData.has_media)
       item.appendChild(featureNode)

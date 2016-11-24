@@ -74,7 +74,7 @@ html, body {
 .current_user_name_full {
     padding: 15px;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 60px;
+    font-size: 50px;
     color: gray;
     word-wrap: break-word;
 }
@@ -101,11 +101,11 @@ html, body {
 }
 
 .current_time {
-    order: 3;
-    width: 400px
-    margin: 5px;
-    height: 400px;
-    background-color: white;
+    /* order: 3; */
+    /* width: 400px */
+    /* margin: 5px; */
+    /* height: 400px; */
+    /* background-color: white; */
 
     font-family: 'Fira Sans', sans-serif;
     font-size: 30px;
