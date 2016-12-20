@@ -8,6 +8,8 @@ socket.on('event', function(data){
 socket.on('disconnect', function(){
 });
 
+var qrious = require('qrious')
+
 // Received a new tweet
 socket.on('tweet', function(data) {
   // Got a tweet from server
@@ -69,7 +71,6 @@ function setCurrentTweet(tweetData) {
   var tweet = document.createElement('div')
 
   tweet.className = 'current_tweet'
-  tweet.appendChild(parseText(tweetData.tweet_text))
 
   // Time
   var time = document.createElement('div')
@@ -92,12 +93,12 @@ function setCurrentTweet(tweetData) {
     dateTime.appendChild(document.createTextNode(date.toLocaleDateString()))
 
     var featureNode = document.createElement('div')
+    var removeLinks = []
 
     // Media
     if (tweetData.has_media)
     {
       for (var i = 0; i < tweetData.media.length; i++) {
-        // TODO: remove media links
         // TODO: add videos
         // TODO: qr code generator from other links
 
@@ -107,9 +108,10 @@ function setCurrentTweet(tweetData) {
           media.className = 'current_media'
           media.src = tweetData.media[i].media_url
           item.appendChild(media)
+
+					// Remove the media link from the twitter text
+					removeLinks.push(media.src)
         }
-
-
       }
     }
 
@@ -136,6 +138,8 @@ function setCurrentTweet(tweetData) {
       }
     }
 
+		// Get Text
+  	tweet.appendChild(parseText(tweetData.tweet_text, removeLinks))
 
     // Help
     var helpNode = document.createElement('div')
@@ -167,7 +171,15 @@ function setCurrentTweet(tweetData) {
     node.appendChild(item)
   }
 
-  function parseText(text) {
+
+  function parseText(text, removeLinks) {
+
+		var ignoredLinks = []
+
+		for (var i = 0; i < removeLinks.length; i++) {
+			text.replace(removeLinks[i], "")
+		}
+
     var node = document.createElement('div')
 
     var data = text.split(' ')
@@ -193,12 +205,13 @@ function setCurrentTweet(tweetData) {
         string = string + '<span style="color:lightblue">' + word +'</span>' + " "
       }
 
-      else if (i == (data.length - 1)) {
-        string = string + word
-      }
-
       else if (word.includes("http")) {
         // we dont want any links
+				ignoredLinks.push(word)
+      }
+
+      else if (i == (data.length - 1)) {
+        string = string + word
       }
 
       else {
